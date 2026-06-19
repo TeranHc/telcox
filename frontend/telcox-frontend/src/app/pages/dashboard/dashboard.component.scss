@@ -1,29 +1,153 @@
-// Animación suave y sombras para las tarjetas
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 16px; // Bordes redondeados modernos
-  background-color: #ffffff;
+//dashboard.component.scss
+// Paleta de Colores de TelcoX
+$bg-light-gray: #f8fafc;
+$text-muted-sidebar: #94a3b8;
+$warning-custom-color: #d97706;
 
-  &:hover {
-    transform: translateY(-8px); // Se eleva ligeramente
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important; // Sombra más fuerte
-  }
-}
-
-// Estilo de las barras de progreso
-.progress {
-  border-radius: 50px; // Barras tipo pastilla
-  background-color: #e9ecef;
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
 }
 
-.progress-bar {
-  border-radius: 50px;
-  transition: width 1s ease-in-out; // Que la barra se llene de forma animada al cargar
+// 1. Sidebar Configuración Profesional
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  height: 100%;
+  z-index: 100;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+
+  .text-muted-custom {
+    color: $text-muted-sidebar !important;
+  }
+
+  .nav-link {
+    color: #f1f5f9;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+
+    &:hover:not(.active) {
+      background-color: #1e293b;
+      color: #ffffff !important;
+    }
+
+    &.active {
+      background-color: var(--bs-primary) !important;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+    }
+  }
+
+  .fs-xs {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
 }
 
-// Separador del encabezado
-.dashboard-header {
-  border-bottom: 2px solid #f1f3f5;
-  padding-bottom: 1.5rem;
+// 2. Contenido Principal e Inicios
+.main-content {
+  height: 100%;
+  overflow: hidden;
+}
+
+.bg-light-gray {
+  background-color: $bg-light-gray;
+}
+
+.top-header {
+  height: 70px;
+  min-height: 70px;
+}
+
+// Banner de Bienvenida estilizado en gradiente moderno
+.welcome-banner {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  border-left: 5px solid var(--bs-primary);
+}
+
+// 3. Estilo de Tarjetas y Formas de Iconos
+.card-custom {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background-color: #ffffff;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06) !important;
+  }
+}
+
+.icon-shape {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-warning-custom {
+  color: $warning-custom-color !important;
+}
+
+.bg-warning-subtle {
+  background-color: #fef3c7 !important;
+}
+
+.progress-custom {
+  height: 8px;
+  border-radius: 10px;
+  background-color: #e2e8f0;
+  overflow: hidden;
+}
+
+// Estados Alternativos (Carga y Errores)
+.loading-wrapper {
+  height: 100vh;
+  width: 100vw;
+}
+
+.alert-custom-danger {
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+}
+
+// Ajustes de Adaptabilidad Móvil
+@media (max-width: 768px) {
+  .sidebar {
+    display: none !important; // Esconde el sidebar en móviles para optimizar espacio
+  }
+}
+// Estilos específicos para la tabla de HistorialFacturacion
+.table {
+  thead {
+    tr {
+      th {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        font-size: 0.75rem;
+        padding: 12px 8px;
+        border-bottom: 2px solid #e2e8f0;
+      }
+    }
+  }
+  tbody {
+    tr {
+      transition: background-color 0.2s ease;
+      td {
+        padding: 14px 8px;
+        color: #334155;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Formateos de separación de listas fluidas
+.py-2\.5 {
+  padding-top: 0.65rem !important;
+  padding-bottom: 0.65rem !important;
+}
+
+.fw-extrabold {
+  font-weight: 800;
 }

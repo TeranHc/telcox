@@ -1,23 +1,50 @@
 from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import ServicioConsumo
-from .serializers import ServicioConsumoSerializer
 from django.contrib.auth import authenticate
 
+# ¡IMPORTANTE! Asegúrate de importar Cliente y HistorialFacturacion aquí
+from .models import ServicioConsumo, Cliente, HistorialFacturacion
 
 class ConsumoDetalleAPIView(APIView):
     def get(self, request, cliente_id):
         try:
-            # Obtenemos el consumo del cliente
-            consumo = ServicioConsumo.objects.get(cliente__id=cliente_id)
-            serializer = ServicioConsumoSerializer(consumo)
-            return Response(serializer.data)
+            # 1. Obtenemos el consumo, trayendo de una vez los datos del cliente y paquete (optimización)
+            consumo = ServicioConsumo.objects.select_related('cliente', 'paquete').get(cliente__id=cliente_id)
+            
+            # 2. Obtenemos todas las facturas de este cliente, ordenadas de la más reciente a la más antigua
+            facturas = HistorialFacturacion.objects.filter(cliente__id=cliente_id).order_by('-fecha_emision')
+            
+            # 3. Armamos la lista de facturas
+            facturas_data = []
+            for factura in facturas:
+                facturas_data.append({
+                    "id": factura.id,
+                    "monto": str(factura.monto),
+                    "fecha_emision": factura.fecha_emision.strftime('%Y-%m-%d'),
+                    "estado": factura.estado
+                })
+            
+            # 4. Construimos el JSON unificado exacto que espera Angular
+            data = {
+                "cliente_nombre": consumo.cliente.nombre_completo,
+                "cliente_telefono": consumo.cliente.telefono,
+                "fecha_registro": consumo.cliente.fecha_registro.isoformat(),
+                "paquete_nombre": consumo.paquete.nombre,
+                "paquete_precio": str(consumo.paquete.precio),
+                "saldo_actual": str(consumo.saldo_actual),
+                "datos_consumidos_gb": str(consumo.datos_consumidos_gb),
+                "limite_datos": str(consumo.paquete.limite_datos_gb),
+                "minutos_consumidos": consumo.minutos_consumidos,
+                "limite_minutos": consumo.paquete.limite_minutos,
+                "facturas": facturas_data
+            }
+            
+            return Response(data)
+            
         except ServicioConsumo.DoesNotExist:
             return Response({"error": "No se encontró información de consumo para este cliente"}, status=404)
-        
+
 class LoginAPIView(APIView):
     def post(self, request):
         # Recibimos las credenciales desde Angular
