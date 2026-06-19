@@ -1,4 +1,4 @@
-# Usar Node 20 o superior, requerido para Angular 22
+# Usar Node 20 o superior
 FROM node:20-alpine
 
 WORKDIR /app
@@ -6,8 +6,8 @@ WORKDIR /app
 # Copiar los archivos de dependencias
 COPY package*.json ./
 
-# Instalar las dependencias (usando npm, como indica tu packageManager)
-RUN npm install
+# Agregar --legacy-peer-deps para ignorar el choque de versiones de ngx-toastr
+RUN npm install --legacy-peer-deps
 
 # Copiar todo el código fuente
 COPY . .

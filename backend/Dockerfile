@@ -1,5 +1,5 @@
-# Usar Python 3.11 (ideal para tus versiones recientes de Django)
-FROM python:3.11-slim
+# Cambiamos a Python 3.12 para soportar Django 6.x
+FROM python:3.12-slim
 
 # Establecer el directorio de trabajo
 WORKDIR /app
