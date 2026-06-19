@@ -1,2 +1,2 @@
 [phases.setup]
-aptPkgs = ["libmariadb-dev", "pkg-config"]
+aptPkgs = ["libmariadb-dev", "libmariadb3", "pkg-config"]
