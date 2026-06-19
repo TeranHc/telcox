@@ -21,5 +21,5 @@ COPY . .
 # Exponer el puerto
 EXPOSE 8000
 
-# Ejecutar el servidor de desarrollo
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# 🔹 CAMBIO CLAVE: Leer el puerto dinámico de Railway
+CMD sh -c "python manage.py runserver 0.0.0.0:$PORT"

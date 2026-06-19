@@ -15,5 +15,5 @@ COPY . .
 # Exponer el puerto de Angular
 EXPOSE 4200
 
-# Iniciar la aplicación
-CMD ["npm", "start", "--", "--host", "0.0.0.0"]
+#  CAMBIO CLAVE: Leer el puerto de Railway y permitir conexiones externas
+CMD sh -c "npm start -- --host 0.0.0.0 --port $PORT --disable-host-check"
