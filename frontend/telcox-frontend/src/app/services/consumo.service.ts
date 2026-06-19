@@ -8,7 +8,7 @@ import { Consumo } from '../models/consumo.model';
 })
 export class ConsumoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://127.0.0.1:8000/api/consumo'; // Cambia esto por la URL real de tu Django
+  private apiUrl = 'https://telcox-production.up.railway.app/api/consumo'; // Cambia esto por la URL real de tu Django
 
   getConsumoCliente(clienteId: number): Observable<Consumo> {
     return this.http.get<Consumo>(`${this.apiUrl}/${clienteId}/`).pipe(
