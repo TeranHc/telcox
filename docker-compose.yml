@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend   # Asegúrate de que esta sea la ruta real a tu carpeta backend
+    container_name: telcox_django
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env # Para que tome las credenciales de tu base de datos en la nube
+
+  frontend:
+    build: ./frontend/telcox-frontend  # Asegúrate de que esta sea la ruta real a tu frontend
+    container_name: telcox_angular
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
