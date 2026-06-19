@@ -1,19 +1,18 @@
-# Usar Node 20 o superior
-FROM node:20-alpine
-
+# ETAPA 1: Construcción
+FROM node:20-alpine AS build
 WORKDIR /app
-
-# Copiar los archivos de dependencias
 COPY package*.json ./
-
-# Agregar --legacy-peer-deps para ignorar el choque de versiones de ngx-toastr
 RUN npm install --legacy-peer-deps
-
-# Copiar todo el código fuente
 COPY . .
+RUN npm run build
 
-# Exponer el puerto de Angular
-EXPOSE 4200
+# ETAPA 2: Servidor de producción
+FROM node:20-alpine
+WORKDIR /app
+RUN npm install -g serve
+# Copiamos la carpeta 'dist' generada en la etapa 1
+# Nota: verifica que la ruta sea 'dist/telcox-frontend/browser'
+COPY --from=build /app/dist/telcox-frontend/browser .
 
-#  CAMBIO CLAVE: Leer el puerto de Railway y permitir conexiones externas
-CMD sh -c "npm start -- --host 0.0.0.0 --port $PORT --disable-host-check"
+# -s sirve la app en modo Single Page Application (SPA), solucionando el error 404
+CMD serve -s . -l $PORT

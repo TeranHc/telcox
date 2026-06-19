@@ -4,7 +4,7 @@ FROM python:3.12-slim
 # Establecemos el directorio de trabajo
 WORKDIR /app
 
-# 🔹 NUEVO: Instalamos las dependencias del sistema operativo necesarias para compilar mysqlclient
+# Instalamos dependencias del sistema necesarias para mysqlclient
 RUN apt-get update && apt-get install -y \
     pkg-config \
     default-libmysqlclient-dev \
@@ -21,5 +21,6 @@ COPY . .
 # Exponer el puerto
 EXPOSE 8000
 
-# 🔹 CAMBIO CLAVE: Leer el puerto dinámico de Railway
-CMD sh -c "python manage.py runserver 0.0.0.0:$PORT"
+# Usamos Gunicorn para producción. 
+# Asegúrate de cambiar 'telcox_bss' por el nombre real de tu proyecto Django (donde está wsgi.py)
+CMD gunicorn telcox_bss.wsgi:application --bind 0.0.0.0:$PORT
