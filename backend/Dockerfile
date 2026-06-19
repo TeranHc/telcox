@@ -1,8 +1,15 @@
-# Cambiamos a Python 3.12 para soportar Django 6.x
+# Usamos Python 3.12
 FROM python:3.12-slim
 
-# Establecer el directorio de trabajo
+# Establecemos el directorio de trabajo
 WORKDIR /app
+
+# 🔹 NUEVO: Instalamos las dependencias del sistema operativo necesarias para compilar mysqlclient
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    default-libmysqlclient-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copiar el requirements.txt y ejecutarlo
 COPY requirements.txt .
