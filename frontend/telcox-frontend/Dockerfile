@@ -5,36 +5,25 @@ RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 
-# DEBUG: Ver qué se generó exactamente
-RUN echo "=== Contenido de dist/ ===" && ls -la dist/
-RUN echo "=== Contenido de dist/telcox-frontend/ ===" && ls -la dist/telcox-frontend/ || echo "No existe dist/telcox-frontend"
-RUN echo "=== Buscando index.html ===" && find dist/ -name "index.html"
+# Verificar build
+RUN ls -la dist/ && ls -la dist/telcox-frontend/ && ls -la dist/telcox-frontend/browser/ || echo "Estructura diferente"
 
-FROM nginx:alpine
+FROM node:22-alpine
+WORKDIR /app
+RUN npm install -g serve
 
-# DEBUG: Ver qué se copió
-COPY --from=build /app/dist /usr/share/nginx/html
-RUN echo "=== Archivos copiados a nginx ===" && ls -la /usr/share/nginx/html/
-RUN echo "=== Buscando index.html ===" && find /usr/share/nginx/html/ -name "index.html"
+# Copiar el build donde sea que esté
+COPY --from=build /app/dist/ /app/dist/
 
-# Configuración de Nginx CORREGIDA
-RUN echo 'server { \
-    listen 80; \
-    server_name _; \
-    root /usr/share/nginx/html; \
-    index index.html; \
-    \
-    location / { \
-        try_files $uri $uri/ /index.html; \
-    } \
-    \
-    # Debug: mostrar requests \
-    access_log /var/log/nginx/access.log; \
-    error_log /var/log/nginx/error.log debug; \
-}' > /etc/nginx/conf.d/default.conf
+# Verificar archivos copiados
+RUN ls -la /app/dist/
+RUN find /app/dist/ -name "index.html"
 
-# Verificar configuración
-RUN nginx -t
+# Crear script de inicio que encuentra el index.html
+RUN echo '#!/bin/sh \
+DIR=$(find /app/dist -name "index.html" -type f | head -1 | xargs dirname) \
+echo "Sirviendo desde: $DIR" \
+cd "$DIR" && serve -s . -l ${PORT:-3000}' > /start.sh && chmod +x /start.sh
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+CMD ["/start.sh"]
