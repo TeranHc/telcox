@@ -1,4 +1,3 @@
-# ETAPA 1: Construcción con Node 22 (REQUERIDO por Angular 22)
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
@@ -6,12 +5,8 @@ RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 
-# ETAPA 2: Servidor de producción con Node 22
-FROM node:22-alpine
-WORKDIR /app
-RUN npm install -g serve
-# Copiamos el build de Angular
-COPY --from=build /app/dist/telcox-frontend/browser .
-EXPOSE 3000
-# Railway automáticamente asigna $PORT, usamos JSON array como recomienda Railway
-CMD ["sh", "-c", "serve -s . -l ${PORT:-3000}"]
+FROM nginx:alpine
+COPY --from=build /app/dist/telcox-frontend/browser /usr/share/nginx/html
+RUN echo 'server { listen 80; root /usr/share/nginx/html; index index.html; location / { try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
