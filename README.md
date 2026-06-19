@@ -1,41 +1,123 @@
-🛠 Tecnologías
-Frontend: Angular 22 + Bootstrap 5.
+# TelcoX - Plataforma de Autogestión Fullstack
 
-Backend: Django 6.0 + Django Rest Framework.
+Plataforma desarrollada para la autogestión de servicios de telecomunicaciones, permitiendo a los clientes visualizar consumos, historial de facturación y gestión de paquetes mediante una arquitectura Full Stack moderna.
 
-Base de Datos: MySQL.
+## 🛠 Tecnologías Utilizadas
 
-Infraestructura: Docker & Docker Compose.
+### Frontend
 
-🚀 Instrucciones de Ejecución
-1. Clonar el repositorio
-Bash
+* Angular 22
+* Bootstrap 5
+* TypeScript
+
+### Backend
+
+* Django 6.0
+* Django REST Framework
+* Gunicorn
+
+### Base de Datos
+
+* MySQL
+
+### Infraestructura y DevOps
+
+* Docker
+* Docker Compose
+* Railway
+
+---
+
+## 🚀 Demo en Producción
+
+La aplicación se encuentra desplegada y disponible para pruebas en los siguientes enlaces:
+
+### Frontend
+
+https://victorious-warmth-production.up.railway.app/login
+
+### Backend (Panel Administrativo)
+
+https://telcox-production.up.railway.app/admin/
+
+---
+
+## 📦 Ejecución Local con Docker
+
+### 1. Clonar el repositorio
+
+```bash
 git clone https://github.com/TeranHc/telcox.git
 cd telcox
-2. Configurar el entorno
-Crea un archivo .env dentro de la carpeta backend/ con las credenciales de conexión. Este archivo es necesario para que el contenedor pueda conectarse a la base de datos:
+```
 
-Plaintext
-# backend/.env
+### 2. Configurar variables de entorno
+
+Crear un archivo `.env` dentro de la carpeta `backend/` con la configuración de la base de datos:
+
+```env
 DATABASE_URL=mysql://root:hZlINDZkMoqIqnSHPKcbbqLROXliwcdv@thomas.proxy.rlwy.net:24355/railway
+```
 
-3. Iniciar la aplicación
-Para levantar el sistema completo (Frontend y Backend), utiliza Docker Compose:
+### 3. Levantar la aplicación
 
-Bash
-docker-compose up --build
-🔗 Accesos
-Una vez que el proceso de compilación finalice, puedes acceder a la plataforma:
+```bash
+docker compose up --build
+```
 
-Login (Frontend): http://localhost:4200/login
+---
 
-Panel de Administración (Backend): http://127.0.0.1:8000/admin/
+## 🔗 Accesos Locales
 
-🔑 Credenciales de Acceso
-Puedes utilizar las siguientes credenciales para acceder al Panel de Administración:
+Una vez iniciados los contenedores:
 
-Usuario: teran
+### Frontend
 
-Contraseña: Teran1456823
+http://localhost:4200/login
 
-Desarrollado para TelcoX - Prueba Técnica.
+### Backend (Panel Administrativo)
+
+http://localhost:8000/admin/
+
+---
+
+## 🔑 Credenciales de Acceso
+
+### Administrador
+
+**Usuario:** teran
+
+**Contraseña:** Teran1456823
+
+---
+
+## 🐳 Docker
+
+El proyecto se encuentra completamente dockerizado mediante Docker Compose, permitiendo ejecutar Frontend y Backend con un único comando.
+
+Contenedores incluidos:
+
+* Frontend Angular
+* Backend Django + Gunicorn
+* Conexión a Base de Datos MySQL mediante variables de entorno
+
+---
+
+## 📋 Funcionalidades Implementadas
+
+* Inicio de sesión de usuarios.
+* Visualización de consumo de datos.
+* Visualización de consumo de minutos.
+* Consulta de saldo disponible.
+* Consulta de historial de facturación.
+* Gestión y visualización de paquetes contratados.
+* API REST para integración con sistemas BSS simulados.
+* Panel administrativo de Django para gestión de datos.
+
+---
+
+## 👨‍💻 Autor
+
+Kevin Terán
+
+Prueba Técnica - TelcoX
