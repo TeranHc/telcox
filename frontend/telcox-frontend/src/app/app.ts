@@ -1,12 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet], 
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss'] // (o .css si usas css normal)
 })
-export class App {
-  protected readonly title = signal('telcox-frontend');
+export class App {  // <--- ¡EL CAMBIO ESTÁ AQUÍ! Le quitamos la palabra "Component"
+  title = 'telcox-frontend';
 }

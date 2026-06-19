@@ -1,0 +1,29 @@
+// Animación suave y sombras para las tarjetas
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px; // Bordes redondeados modernos
+  background-color: #ffffff;
+
+  &:hover {
+    transform: translateY(-8px); // Se eleva ligeramente
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important; // Sombra más fuerte
+  }
+}
+
+// Estilo de las barras de progreso
+.progress {
+  border-radius: 50px; // Barras tipo pastilla
+  background-color: #e9ecef;
+  overflow: hidden;
+}
+
+.progress-bar {
+  border-radius: 50px;
+  transition: width 1s ease-in-out; // Que la barra se llene de forma animada al cargar
+}
+
+// Separador del encabezado
+.dashboard-header {
+  border-bottom: 2px solid #f1f3f5;
+  padding-bottom: 1.5rem;
+}
