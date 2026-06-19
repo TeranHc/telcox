@@ -22,3 +22,10 @@ export interface Consumo {
   // ¡Aquí está la clave! Le decimos a TypeScript que este modelo ahora incluye un arreglo de facturas
   facturas: Factura[]; 
 }
+export interface Paquete {
+  id: number;
+  nombre: string;
+  datos: string;
+  minutos: number | string;
+  precio: string;
+}

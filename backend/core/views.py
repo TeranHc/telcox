@@ -3,8 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 
+
 # ¡IMPORTANTE! Asegúrate de importar Cliente y HistorialFacturacion aquí
-from .models import ServicioConsumo, Cliente, HistorialFacturacion
+from .models import ServicioConsumo, Cliente, HistorialFacturacion, Paquete
 
 class ConsumoDetalleAPIView(APIView):
     def get(self, request, cliente_id):
@@ -67,3 +68,16 @@ class LoginAPIView(APIView):
                 return Response({"error": "Este usuario no tiene un perfil de cliente asignado"}, status=403)
         else:
             return Response({"error": "Usuario o contraseña incorrectos"}, status=401)
+class PaquetesAPIView(APIView):
+    def get(self, request):
+        paquetes_db = Paquete.objects.all()
+        paquetes_list = []
+        for p in paquetes_db:
+            paquetes_list.append({
+                "id": p.id,
+                "nombre": p.nombre,
+                "datos": str(p.limite_datos_gb),
+                "minutos": p.limite_minutos,
+                "precio": str(p.precio)
+            })
+        return Response(paquetes_list)

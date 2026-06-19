@@ -151,3 +151,27 @@ $warning-custom-color: #d97706;
 .fw-extrabold {
   font-weight: 800;
 }
+// 🔹 ESTILOS PARA EL MODAL DE PLANES
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.plan-card {
+  transition: all 0.2s ease-in-out;
+  background-color: #ffffff;
+  
+  &:hover {
+    background-color: #f8fafc;
+    border-color: var(--bs-primary) !important;
+    transform: scale(1.02);
+  }
+}
+
+.animation-fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

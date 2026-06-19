@@ -228,7 +228,7 @@
             </div>
 
             <div class="mt-4">
-              <button class="btn btn-primary w-100 rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
+              <button (click)="abrirModal()" class="btn btn-primary w-100 rounded-3 py-2 d-flex align-items-center justify-content-center gap-2">
                 <i class="bi bi-arrow-up-right-circle"></i>
                 <span>Cambiar de Plan</span>
               </button>
@@ -255,6 +255,52 @@
     <div>
       <h5 class="alert-heading fw-bold text-danger mb-1">Error de Sincronización</h5>
       <p class="mb-0 text-secondary">{{ errorMessage }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade show" tabindex="-1" *ngIf="mostrarModal" style="display: block; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title fw-bold text-dark"><i class="bi bi-stars text-primary me-2"></i>Mejora tu Experiencia</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body p-4">
+        
+        <div *ngIf="!mostrarExito">
+          <p class="text-muted mb-4 small">Selecciona el plan que mejor se adapte a tus necesidades. Mantendrás tu número actual ({{ telefono }}).</p>
+          
+          <div class="d-flex flex-column gap-3">
+            <div class="card border border-light-subtle shadow-sm rounded-3 cursor-pointer plan-card" 
+                 *ngFor="let plan of planesDisponibles" 
+                 (click)="solicitarCambio(plan.nombre)">
+              <div class="card-body p-3 d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="fw-bold mb-1 text-dark">{{ plan.nombre }}</h6>
+                  <small class="text-muted"><i class="bi bi-wifi"></i> {{ plan.datos }} GB &nbsp;•&nbsp; <i class="bi bi-telephone"></i> {{ plan.minutos }}</small>
+                </div>
+                <div class="text-end">
+                  <h5 class="text-primary fw-bold mb-0">${{ plan.precio }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="mostrarExito" class="text-center py-4 px-2 animation-fade-in">
+          <i class="bi bi-check-circle-fill text-success display-1 d-block mb-3"></i>
+          <h4 class="fw-bold text-dark">¡Solicitud Registrada!</h4>
+          <p class="text-muted mt-3">Has solicitado el cambio al <strong>{{ planSeleccionado }}</strong>.</p>
+          <div class="alert alert-primary-subtle border-0 rounded-3 text-start small mt-4 mb-0">
+            <i class="bi bi-info-circle-fill me-2"></i> Un asesor de TelcoX se pondrá en contacto contigo al <strong>{{ telefono }}</strong> en un plazo máximo de 24 horas para finalizar la migración.
+          </div>
+          <button class="btn btn-primary rounded-pill px-5 mt-4 w-100" (click)="cerrarModal()">Entendido</button>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
