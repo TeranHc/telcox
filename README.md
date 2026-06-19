@@ -118,6 +118,6 @@ Contenedores incluidos:
 
 ## 👨‍💻 Autor
 
-Kevin Terán
+Kevin Johao Terán Rodríguez
 
 Prueba Técnica - TelcoX
