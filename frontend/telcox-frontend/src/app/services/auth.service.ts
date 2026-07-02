@@ -1,4 +1,3 @@
-//auth.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
@@ -8,8 +7,9 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  // Asegúrate de cambiar este puerto si tu backend corre en otra URL
-  private apiUrl = 'http://127.0.0.1:8000/api/login/'; 
+  
+  // 🚀 URL CORREGIDA APUNTANDO A PRODUCCIÓN EN RAILWAY
+  private apiUrl = 'https://telcox-production.up.railway.app/api/login/'; 
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(this.apiUrl, { username, password }).pipe(
